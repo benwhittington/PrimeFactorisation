@@ -9,18 +9,25 @@ fn main() {
 
 fn list_primes(n: u128) -> Vec<u128>{
 
-    let mut primes: Vec<u128>=Vec::new();
+    // generates list of n primes
 
-    for i in 2..n {
+    let mut primes: Vec<u128>=Vec::with_capacity(1000);
+    let mut i: u128=2;
+
+    while primes.len()<n as usize{
         if is_prime(i){
             primes.push(i);
         }
+        i+=1;
     }
     
     return primes
 }
 
 fn check_prime(v: &Vec<u128>) -> bool {
+
+    // Check if all values in prime factorisation are prime
+
     let mut out: bool=true;
     for val in v.iter(){
         out&=is_prime(*val);
@@ -31,12 +38,18 @@ fn check_prime(v: &Vec<u128>) -> bool {
 
 fn get_command(command: &mut String){
 
+    // Get command from user
+
     print!(">> ");
     io::stdout().flush().unwrap();
     io::stdin().read_line(command).expect("Read line failed");
 }
 
 fn mul_vec(v: &Vec<u128>) -> u128{
+
+    // multiplies elements of vector together.
+    // used to compute number from factorisation
+
     let mut out: u128=1;
 
     for val in v.iter(){
@@ -47,6 +60,7 @@ fn mul_vec(v: &Vec<u128>) -> u128{
 }
 
 fn print_vec(out: &Vec<u128>){
+    // Just prints out elems of vector
     for val in out.iter(){
         print!("{} ",val);
     }
@@ -54,6 +68,9 @@ fn print_vec(out: &Vec<u128>){
 }
 
 fn control(){
+
+    // main control loop
+
     let mut command=String::new();
     let mut n: u128;
     let mut out:Vec<u128>=[1].to_vec();
@@ -69,32 +86,35 @@ fn control(){
         if command.trim()=="quit" {break}
 
         if command.trim()=="check" {
-            println!("{}",mul_vec(&out));
+            println!("    Product of factors: {}",mul_vec(&out));
             if check_prime(&out){
-                println!("All factors prime")
+                println!("    All factors prime")
             } else {
-                println!("NOT ALL FACTORS PRIME");
+                println!("    NOT ALL FACTORS PRIME");
             }
             continue;
         }
 
-        n=command.trim().parse().expect("Not a Number");
-
-        if factorise(n,&primes,&mut out){
-            print!("Factorisation of {}: ",n);
-            print_vec(&out);
+        if command.trim().parse::<u128>().is_ok(){
+            n=command.trim().parse().expect("    Not a Number");
         } else {
-            println!("Failed to completely factorise {}",n);
+            println!("    Command not recognised");
+            continue;
         }
 
-
-
+        if factorise(n,&primes,&mut out){
+            print!("    Factorisation of {}: ",n);
+            print_vec(&out);
+        } else {
+            println!("    Failed to completely factorise {}",n);
+        }
     }
 }
 
 fn factorise(mut n: u128, primes: &Vec<u128>, out: &mut Vec<u128>) -> bool{
     
-    // last prime does not have to be in list of primes
+    // Last prime does not have to be in list of primes. 
+    // Freaked me out when it first realised.
 
     let mut n_root: u128=(n as f64).sqrt() as u128+1;
     let mut ok: bool;
