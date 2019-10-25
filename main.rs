@@ -59,6 +59,14 @@ fn mul_vec(v: &Vec<u128>) -> u128{
     return out;
 }
 
+fn help() {
+    println!("  Prime Factor Calculator");
+    println!("  Commands:");
+    println!("      quit : exit calculator");
+    println!("      <unsigned int> : factorises number");
+    println!("      check : checks factorisation was correct", );
+}
+
 fn print_vec(out: &Vec<u128>){
     // Just prints out elems of vector
     for val in out.iter(){
@@ -73,7 +81,7 @@ fn control(){
 
     let mut command=String::new();
     let mut n: u128;
-    let mut out:Vec<u128>=[1].to_vec();
+    let mut out:Vec<u128>=Vec::new();
     let n_primes: u128=1000;
     let primes: Vec<u128>=list_primes(n_primes);
 
@@ -86,12 +94,21 @@ fn control(){
         if command.trim()=="quit" {break}
 
         if command.trim()=="check" {
-            println!("    Product of factors: {}",mul_vec(&out));
-            if check_prime(&out){
-                println!("    All factors prime")
+            if out.is_empty(){
+                println!("    Factorise a number first")
             } else {
-                println!("    NOT ALL FACTORS PRIME");
+                println!("    Product of factors: {}",mul_vec(&out));
+                if check_prime(&out){
+                    println!("    All factors prime")
+                } else {
+                    println!("    NOT ALL FACTORS PRIME");
+                }
             }
+            continue;
+        }
+
+        if command.trim()=="help" {
+            help();
             continue;
         }
 
@@ -115,6 +132,8 @@ fn factorise(mut n: u128, primes: &Vec<u128>, out: &mut Vec<u128>) -> bool{
     
     // Last prime does not have to be in list of primes. 
     // Freaked me out when it first realised.
+
+    if n<2 {return false}
 
     let mut n_root: u128=(n as f64).sqrt() as u128+1;
     let mut ok: bool;
