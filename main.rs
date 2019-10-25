@@ -121,8 +121,12 @@ fn control(){
         }
 
         if factorise(n,&primes,&mut out){
-            print!("{}",format!("    Factorisation of {}: ",n).green().bold());
-            print_vec(&out);
+            if out.len()==1{
+                println!("{}",format!("    {} is prime",n).green().bold());
+            } else {
+                print!("{}",format!("    Factorisation of {}: ",n).green().bold());
+                print_vec(&out);
+            }
         } else {
             println!("{}",format!("    Failed to completely factorise {}",n).red().bold());
         }
