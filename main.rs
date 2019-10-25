@@ -1,5 +1,6 @@
 use std::io;
 use std::io::prelude::*; 
+use colored::*;
 
 fn main() {
 
@@ -60,17 +61,17 @@ fn mul_vec(v: &Vec<u128>) -> u128{
 }
 
 fn help() {
-    println!("  Prime Factor Calculator");
-    println!("  Commands:");
-    println!("      quit : exit calculator");
-    println!("      <unsigned int> : factorises number");
-    println!("      check : checks factorisation was correct", );
+    println!("{}","  Prime Factor Calculator".green().bold());
+    println!("{}","  Commands:".green().bold());
+    println!("{}","      quit           : exit calculator".green().bold());
+    println!("{}","      <unsigned int> : factorises number".green().bold());
+    println!("{}","      check          : checks factorisation was correct".green().bold());
 }
 
 fn print_vec(out: &Vec<u128>){
     // Just prints out elems of vector
     for val in out.iter(){
-        print!("{} ",val);
+        print!("{}",format!("{} ",val).green().bold());
     }
     println!("");
 }
@@ -95,13 +96,13 @@ fn control(){
 
         if command.trim()=="check" {
             if out.is_empty(){
-                println!("    Factorise a number first")
+                println!("{}","    Factorise a number first".yellow().bold())
             } else {
-                println!("    Product of factors: {}",mul_vec(&out));
+                println!("    {}",format!("Product of factors: {}",mul_vec(&out)).green().bold());
                 if check_prime(&out){
-                    println!("    All factors prime")
+                    println!("{}","    All factors prime".green().bold());
                 } else {
-                    println!("    NOT ALL FACTORS PRIME");
+                    println!("{}","    NOT ALL FACTORS PRIME".red().bold());
                 }
             }
             continue;
@@ -115,15 +116,15 @@ fn control(){
         if command.trim().parse::<u128>().is_ok(){
             n=command.trim().parse().expect("    Not a Number");
         } else {
-            println!("    Command not recognised");
+            println!("{}","    Command not recognised".red().bold());
             continue;
         }
 
         if factorise(n,&primes,&mut out){
-            print!("    Factorisation of {}: ",n);
+            print!("{}",format!("    Factorisation of {}: ",n).green().bold());
             print_vec(&out);
         } else {
-            println!("    Failed to completely factorise {}",n);
+            println!("{}",format!("    Failed to completely factorise {}",n).red().bold());
         }
     }
 }
@@ -168,7 +169,9 @@ fn is_prime_root(n: u128, n_root: u128) -> bool {
 }
 
 fn is_prime(n: u128) -> bool {
+
     let n_root: u128=(n as f64).sqrt() as u128+1;
+
     if n==2 {return true}
     for i in 2..(n_root) {
         if n%i==0 {return false};
