@@ -1,9 +1,10 @@
 # (Simple) Prime Factorisation Calculator
-    
+Factors primes through brute force.
+
 ## Some commands:
 
-quit : exit calculator
+quit                : exit calculator
 
-\<unsigned int\> : factorises number
+\<unsigned int\>    : factorises number
 
-check : checks factorisation was correct
+check               : checks factorisation was correct
