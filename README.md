@@ -1,5 +1,5 @@
 # (Simple) Prime Factorisation Calculator
-Factors primes through brute force.
+Factors numbers through brute force.
 
 ## Some commands:
 
