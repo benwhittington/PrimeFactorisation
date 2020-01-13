@@ -7,4 +7,4 @@ Factors numbers through brute force.
 
 check               : checks factorisation was correct
 
-quit		    : exists calculator
+quit		    : exits calculator
